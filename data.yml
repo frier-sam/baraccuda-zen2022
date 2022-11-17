@@ -1,0 +1,51 @@
+
+
+
+
+
+flask - 
+/upload
+/getrenderdata - post(filters) - KPI
+/filter - {
+    - entry - exit
+    - pathlength (steps or time)
+    - performance (time-series)
+    - frequency
+    - multi-select event filter
+}
+/RCA - 
+/simulations
+
+
+entry page:
+ - upload -- upload page 
+ - Api
+ - salesforce
+ - Database
+
+
+Dashborad
+
+    Top Bar
+    - Aleart
+    - KPI
+    - Bredcrumbs
+    - 
+
+    side bar 
+        Overview (KPI)
+        Process explorer
+        --- Variant explorer 
+        RCA/EDA
+        Simulations
+
+    Filter Bar(dynamic)
+
+
+    Mid Section
+
+    
+
+
+
+
