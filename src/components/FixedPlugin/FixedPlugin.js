@@ -26,12 +26,8 @@ import sideBarImage3 from "assets/img/sidebar-3.jpg";
 import sideBarImage4 from "assets/img/sidebar-4.jpg";
 
 function FixedPlugin({
-  hasImage,
-  setHasImage,
-  color,
-  setColor,
-  image,
-  setImage
+  start,setStart,end,setEnd,pathlenght,setPathlenght,frequencie,setFrequencie,
+  performance,setPerformance,filternodes,setFilternodes,selectedstart,selectedend
 }) {
   // constructor(props) {
   //   super(props);
@@ -59,16 +55,38 @@ function FixedPlugin({
           <i className="fas fa-cogs fa-2x mt-1"></i>
         </Dropdown.Toggle>
         <Dropdown.Menu>
-          <li className="adjustments-line d-flex align-items-center justify-content-between">
-            <p>Background Image</p>
-            <Form.Check
-              type="switch"
-              id="custom-switch-1-image"
-              checked={hasImage}
-              onChange={setHasImage}
-            />
+          {/* <li className="adjustments-line d-flex align-items-center justify-content-between">
+            <p>Start Node</p>
+            <Form.Select size="sm">
+              {start.map((i,k)=><option>{i}</option>)}
+            </Form.Select>
+
+          </li> */}
+          <li className="button-container mb-4">
+          <p>Start Node</p>
+            <Form.Select size="sm" value={selectedstart} onChange={setStart}>
+              {start.map((i,k)=><option value={i[0]}>{i[0]}</option>)}
+            </Form.Select>
           </li>
-          <li className="adjustments-line mt-3">
+          <li className="button-container mb-4">
+          <p>End Node</p>
+            <Form.Select size="sm" value={selectedend} onChange={setEnd}>
+              {end.map((i,k)=><option value={i[0]}>{i[0]}</option>)}
+            </Form.Select>
+          </li>
+          <li className="button-container mb-4">
+            <Form.Label>Pathlenght</Form.Label>
+            <br/>
+            <Form.Control 
+          onChange={e =>  {if(e.target.value.match("/^\d*(\.\d+)?$/")){
+              console.log('e------',e.target.value);
+              setPathlenght(e.target.value)
+                }}}
+                value = {pathlenght}
+            />
+
+          </li>
+          {/* <li className="adjustments-line mt-3">
             <p>Filters</p>
             <div className="pull-right">
               <Badge
@@ -201,22 +219,7 @@ function FixedPlugin({
           <li className="header-title" id="sharrreTitle">
             Thank you for sharing!
           </li>
-          <li className="button-container mb-4">
-            <Button
-              className="btn-social btn-outline btn-round sharrre"
-              id="twitter"
-              variant="twitter"
-            >
-              <i className="fab fa-twitter"></i>· 256
-            </Button>
-            <Button
-              className="btn-social btn-outline btn-round sharrre"
-              id="facebook"
-              variant="facebook"
-            >
-              <i className="fab fa-facebook-square"></i>· 426
-            </Button>
-          </li>
+           */}
         </Dropdown.Menu>
       </Dropdown>
     </div>

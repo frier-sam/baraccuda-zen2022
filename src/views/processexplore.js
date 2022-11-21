@@ -31,6 +31,7 @@ import ReactFlow, {
 import 'reactflow/dist/style.css';
 import './flow.css';
 import dagre from 'dagre';
+import FixedPlugin from "../components/FixedPlugin/FixedPlugin.js";
 
 const initialNodes = [
   { id: '1',position:{x:0,y:0},  data: { label: '1' } },
@@ -52,6 +53,17 @@ const onInit = (reactFlowInstance) => console.log('flow loaded:', reactFlowInsta
 function ProcessExplorer() {
   const [fnodes, setNodes] = useState();
   const [fedges, setEdges] = useState();
+
+  const [startfilter, setStartfilter] = useState([]);
+  const [endfilter , setEndfilter] = useState([]);
+
+  const [selectedstart, setSelectedstart] = useState();
+  const [selectedend, setSelectedend] = useState();
+  const [pathlenght , setPathlenght] = useState(0);
+  const [frequencie, setFrequencie] = useState();
+  const [performance,setPerformance] = useState();
+  const [filternodes, setFilternodes] = useState([]);
+
 
   const getnodes = async () =>
     {
@@ -82,13 +94,13 @@ function ProcessExplorer() {
   nodes.forEach((node) => {
     const nodeWithPosition = dagreGraph.node(node.id);
     node.targetPosition = 'top';
-    node.sourcePosition = 'bottom';
+    node.sourcePosition = 'left';
 
     // We are shifting the dagre node position (anchor=center center) to the top left
     // so it matches the React Flow node anchor point (top left).
     node.position = {
-      x: nodeWithPosition.x - nodeWidth / 2,
-      y: nodeWithPosition.y - nodeHeight / 2,
+      x: nodeWithPosition.x - nodeWidth/0.1,
+      y: nodeWithPosition.y - nodeHeight/0.1,
     };
 
     return node;
@@ -96,6 +108,11 @@ function ProcessExplorer() {
 
   setNodes(nodes)
   setEdges(edges)
+  var startlist = Object.keys(res['start']).map((key) => [key, res['start'][key]]);
+  var endlist = Object.keys(res['end']).map((key) => [key, res['end'][key]]);
+
+  setStartfilter(startlist)
+  setEndfilter(endlist)
   }).then(()=>
   {console.log('fnodes',fnodes);
     console.log('fedges',fedges);}
@@ -125,78 +142,36 @@ function ProcessExplorer() {
       <MiniMap />
       <Controls />
 
-    </ReactFlow>}
-      {/* <Container >
-        <Row>
-          <Col md="12">
-            <Card>
-              <Card.Header>
-                <Card.Title as="h4">Process Explorer</Card.Title>
-              </Card.Header>
-              <Card.Body>
-               
-              </Card.Body>
-            </Card>
-          </Col>
-          <Col md="12" style={{ height: '100%' }}>
-       
-        </Col>
-         
-        </Row>
-        
-       
-        
-    
-              
-        
-        
-      </Container> */}
+    </ReactFlow>
+   }
+    <FixedPlugin
+    // hasImage={hasImage}
+    // setHasImage={() => setHasImage(!hasImage)}
+    // color={color}
+    // setColor={(color) => setColor(color)}
+    // image={image}
+    // setImage={(image) => setImage(image)}
+    start = {startfilter}
+    selectedstart= {selectedstart}
+    setStart = {setSelectedstart}
+    end = {endfilter}
+    selectedend= {selectedend}
+    setEnd = {setSelectedend}
+    pathlenght = {pathlenght}
+    setPathlenght = {setPathlenght}
+    frequencie = {frequencie}
+    setFrequencie = {setFrequencie}
+    performance = {performance}
+    setPerformance = {setPerformance}
+    filternodes = {filternodes}
+    setFilternodes = {setFilternodes}
+
+  />
+
     </div>
   );
 }
 
 export default ProcessExplorer;
 
-// function Flow() {
-//   const reactFlowInstance = useReactFlow();
-//   const setnodes = async () =>
-//       {
-//       var res = await createGet('getrenderdata');
-      
-      
-//   }
-//   setnodes().then((res)={
-//     const { lnodes, ledges } = getLayoutedElements(
-//     res['dfg'][0],
-//     res['dfg'][1]
-//   );
-  
-//   return lnodes,ledges}).then((lnodes,ledges) => {reactFlowInstance.setNodes(lnodes);
-//     reactFlowInstance.setEdges(ledges);}).then
 
-//   return (
-//     <>
-//       <ReactFlow
-//         defaultNodes={initialNodes}
-//         defaultEdges={initialEdges}
-//         // defaultEdgeOptions={edgeOptions}
-//         fitView
-//         style={{
-//           backgroundColor: '#D3D2E5',
-//         }}
-//         // connectionLineStyle={connectionLineStyle}
-//       />
-//       {/* <button onClick={onClick} className="btn-add">
-//         add node
-//       </button> */}
-//     </>
-//   );
-// }
-
-// export default function () {
-//   return (
-//     <ReactFlowProvider>
-//       <Flow />
-//     </ReactFlowProvider>
-//   );
-// }
