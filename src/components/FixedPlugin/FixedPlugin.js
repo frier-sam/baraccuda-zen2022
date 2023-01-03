@@ -26,8 +26,9 @@ import sideBarImage3 from "assets/img/sidebar-3.jpg";
 import sideBarImage4 from "assets/img/sidebar-4.jpg";
 
 function FixedPlugin({
-  start,setStart,end,setEnd,pathlenght,setPathlenght,frequencie,setFrequencie,
-  performance,setPerformance,filternodes,setFilternodes,selectedstart,selectedend
+  start,setStart,end,setEnd,pathlenght,setPathlenght,selectedstart,selectedend,
+  
+  filterstate,handlefilterChange,updatenode
 }) {
   // constructor(props) {
   //   super(props);
@@ -55,13 +56,19 @@ function FixedPlugin({
           <i className="fas fa-cogs fa-2x mt-1"></i>
         </Dropdown.Toggle>
         <Dropdown.Menu>
-          {/* <li className="adjustments-line d-flex align-items-center justify-content-between">
-            <p>Start Node</p>
-            <Form.Select size="sm">
-              {start.map((i,k)=><option>{i}</option>)}
-            </Form.Select>
 
-          </li> */}
+          <li className="button-container mb-4">
+            <Form.Label>Percentage Frequency</Form.Label>
+            <br/>
+            <input type="number" name="path_perc" min="0.1" max="1" step="0.05" value={filterstate.path_perc} onChange={handlefilterChange} />
+
+          </li>
+          <li className="button-container mb-4">
+            <Form.Label>Percentage Activity</Form.Label>
+            <br/>
+            <input type="number" name="act_perc" min="0.1" max="1" step="0.05" value={filterstate.act_perc} onChange={handlefilterChange} />
+
+          </li>
           <li className="button-container mb-4">
           <p>Start Node</p>
             <Form.Select size="sm" value={selectedstart} onChange={setStart}>
@@ -77,15 +84,12 @@ function FixedPlugin({
           <li className="button-container mb-4">
             <Form.Label>Pathlenght</Form.Label>
             <br/>
-            <Form.Control 
-          onChange={e =>  {if(e.target.value.match("/^\d*(\.\d+)?$/")){
-              console.log('e------',e.target.value);
-              setPathlenght(e.target.value)
-                }}}
-                value = {pathlenght}
-            />
+            <input type="number"  value={pathlenght} onChange={setPathlenght} />
 
           </li>
+          
+          <Button variant="primary" onClick={()=>updatenode()}>Update</Button>
+
           {/* <li className="adjustments-line mt-3">
             <p>Filters</p>
             <div className="pull-right">

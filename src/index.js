@@ -36,7 +36,7 @@ root.render(
     <Switch>
       <Route path="/admin" render={(props) => <AdminLayout {...props} />} />
       <Route path="/upload" render={(props) => <Uploadlayout {...props} />} />
-      <Redirect from="/" to="/admin/dashboard" />
+      <Redirect from="/" to="/upload" />
     </Switch>
   </BrowserRouter>
 );

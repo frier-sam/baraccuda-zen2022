@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from "react";
 // import { useCallback } from 'react';
 
-import {createGet} from "../api/apis.js";
+import {createGet,createPost} from "../api/apis.js";
 
 // react-bootstrap components
 import {
@@ -26,6 +26,8 @@ import ReactFlow, {
   useReactFlow ,
   setNodes,
   setEdges,
+  applyNodeChanges, 
+  applyEdgeChanges
 } from 'reactflow';
 // 👇 you need to import the reactflow styles
 import 'reactflow/dist/style.css';
@@ -53,27 +55,96 @@ const onInit = (reactFlowInstance) => console.log('flow loaded:', reactFlowInsta
 function ProcessExplorer() {
   const [fnodes, setNodes] = useState();
   const [fedges, setEdges] = useState();
+  const [elements, setElements] = useState([]);
 
   const [startfilter, setStartfilter] = useState([]);
   const [endfilter , setEndfilter] = useState([]);
 
   const [selectedstart, setSelectedstart] = useState();
-  const [selectedend, setSelectedend] = useState();
+  const [selectedend, setSelectedend] = useState([]);
   const [pathlenght , setPathlenght] = useState(0);
-  const [frequencie, setFrequencie] = useState();
-  const [performance,setPerformance] = useState();
-  const [filternodes, setFilternodes] = useState([]);
+ 
+
+  const [filterstate, setFilterstate] = useState({
+    'act_perc':1,
+    'path_perc':1,
+    'view_type':'act_cnt',
+    'unit':'hours'
+  });
+  const handlefilterChange = (event) => {
+    setFilterstate((prevState) => ({
+      ...prevState,
+      [event.target.name]: event.target.value,
+    }));
+  }
 
 
-  const getnodes = async () =>
+  const getnodes = async (data) =>
     {
-    var res = await createGet('getrenderdata');
+    var res = await createPost('getrenderdata',data);
     return res
+  }
+
+  const onNodesChange = useCallback(
+    (changes) => setNodes((nds) => applyNodeChanges(changes, nds)),
+    []
+  );
+  const onEdgesChange = useCallback(
+    (changes) => setEdges((eds) => applyEdgeChanges(changes, eds)),
+    []
+  );
+
+  const updateNodeapi = () =>{
+    getnodes(filterstate).then((res)=>{
+      console.log(res['dfg'][0]);
+    const nodes = res['dfg'][0];
+    const edges = res['dfg'][1];
+    // const isHorizontal = direction === 'LR';
+    const direction = 'TB'
+    dagreGraph.setGraph({ rankdir: direction });
+  
+    nodes.forEach((node) => {
+      dagreGraph.setNode(node.id, { width: nodeWidth, height: nodeHeight });
+    });
+  
+    edges.forEach((edge) => {
+      dagreGraph.setEdge(edge.source, edge.target);
+    });
+  
+    dagre.layout(dagreGraph);
+  
+    nodes.forEach((node) => {
+      const nodeWithPosition = dagreGraph.node(node.id);
+      node.targetPosition = 'top';
+      node.sourcePosition = 'bottom';
+  
+      // We are shifting the dagre node position (anchor=center center) to the top left
+      // so it matches the React Flow node anchor point (top left).
+      node.position = {
+        x: nodeWithPosition.x - nodeWidth/2,
+        y: nodeWithPosition.y - nodeHeight/2,
+      };
+  
+      return node;
+    });
+  
+    setNodes(nodes)
+    setEdges(edges)
+    setElements([...nodes,...edges]);
+    var startlist = Object.keys(res['start']).map((key) => [key, res['start'][key]]);
+    var endlist = Object.keys(res['end']).map((key) => [key, res['end'][key]]);
+  
+    setStartfilter(startlist)
+    setEndfilter(endlist)
+    }).then(()=>
+    {console.log('fnodes',fnodes);
+      console.log('fedges',fedges);}
+    )
   }
   
   React.useEffect(() => {
 
-  getnodes().then((res)=>{
+  getnodes(filterstate).then((res)=>{
     console.log(res['dfg'][0]);
   const nodes = res['dfg'][0];
   const edges = res['dfg'][1];
@@ -94,13 +165,13 @@ function ProcessExplorer() {
   nodes.forEach((node) => {
     const nodeWithPosition = dagreGraph.node(node.id);
     node.targetPosition = 'top';
-    node.sourcePosition = 'left';
+    node.sourcePosition = 'bottom';
 
     // We are shifting the dagre node position (anchor=center center) to the top left
     // so it matches the React Flow node anchor point (top left).
     node.position = {
-      x: nodeWithPosition.x - nodeWidth/0.1,
-      y: nodeWithPosition.y - nodeHeight/0.1,
+      x: nodeWithPosition.x - nodeWidth/2,
+      y: nodeWithPosition.y - nodeHeight/2,
     };
 
     return node;
@@ -108,6 +179,7 @@ function ProcessExplorer() {
 
   setNodes(nodes)
   setEdges(edges)
+  setElements([...nodes,...edges]);
   var startlist = Object.keys(res['start']).map((key) => [key, res['start'][key]]);
   var endlist = Object.keys(res['end']).map((key) => [key, res['end'][key]]);
 
@@ -121,7 +193,28 @@ function ProcessExplorer() {
     
   }, []);
 
-    
+  const onElementClick = (event, object) => {
+    const graphElements = [object.id];
+
+    setElements((els) => {
+      setEdges((edges) =>
+        edges.sort((a, b) => {
+          if (a.source < b.source) return -1;
+          if (a.source > b.source) return 1;
+          return 0;
+        })
+      );
+      edges.forEach((el) => {
+        if (graphElements.includes(el.source)) {
+          graphElements.push(el.target);
+          el.animated = true;
+        } else {
+          el.animated = false;
+        }
+      });
+      return [...nodes, ...edges];
+    });
+  }
 
   // const onConnect = useCallback((params) => setEdges((eds) => addEdge(params, eds)), [setEdges]);
   
@@ -129,13 +222,13 @@ function ProcessExplorer() {
 
   return (
     <div >
-      {/* {getdata()} */}
+
     {<ReactFlow
       nodes={fnodes}
       edges={fedges}
-      // onNodesChange={onNodesChange}
-      // onEdgesChange={onEdgesChange}
-      // onConnect={onConnect}
+      onNodesChange={onNodesChange}
+      onEdgesChange={onEdgesChange}
+      onElementClick={onElementClick}
       onInit={onInit}
       fitView
     >
@@ -145,12 +238,7 @@ function ProcessExplorer() {
     </ReactFlow>
    }
     <FixedPlugin
-    // hasImage={hasImage}
-    // setHasImage={() => setHasImage(!hasImage)}
-    // color={color}
-    // setColor={(color) => setColor(color)}
-    // image={image}
-    // setImage={(image) => setImage(image)}
+
     start = {startfilter}
     selectedstart= {selectedstart}
     setStart = {setSelectedstart}
@@ -159,12 +247,10 @@ function ProcessExplorer() {
     setEnd = {setSelectedend}
     pathlenght = {pathlenght}
     setPathlenght = {setPathlenght}
-    frequencie = {frequencie}
-    setFrequencie = {setFrequencie}
-    performance = {performance}
-    setPerformance = {setPerformance}
-    filternodes = {filternodes}
-    setFilternodes = {setFilternodes}
+    
+    filterstate = {filterstate}
+    handlefilterChange = {handlefilterChange}
+    updatenode = {updateNodeapi}
 
   />
 

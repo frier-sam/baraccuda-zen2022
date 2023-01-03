@@ -41,7 +41,7 @@ const dashboardRoutes = [
     layout: "/admin"
   },
   {
-    path: "/user",
+    path: "/processminining",
     name: "Process explorer",
     icon: "nc-icon nc-circle-09",
     component: ProcessExplorer,
