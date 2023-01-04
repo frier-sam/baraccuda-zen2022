@@ -70,6 +70,14 @@ function FixedPlugin({
 
           </li>
           <li className="button-container mb-4">
+          <Form.Select name='unit' value={filterstate.act_perc} onChange={handlefilterChange}>
+            <option value="seconds">seconds</option>
+            <option value="hours">Hours</option>
+            <option value="mins">Minutes</option>
+            <option value="days">Days</option>
+          </Form.Select>
+          </li>
+          <li className="button-container mb-4">
           <p>Start Node</p>
             <Form.Select size="sm" value={selectedstart} onChange={setStart}>
               {start.map((i,k)=><option value={i[0]}>{i[0]}</option>)}

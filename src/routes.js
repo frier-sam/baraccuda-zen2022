@@ -19,7 +19,8 @@ import Dashboard from "views/Dashboard.js";
 import ProcessExplorer from "views/processexplore.js";
 import TableList from "views/TableList.js";
 import Typography from "views/Typography.js";
-import Icons from "views/Icons.js";
+import RcaEda from "views/rcaeda.js";
+import Simulations from "views/simulations.js";
 import Maps from "views/Maps.js";
 import Notifications from "views/Notifications.js";
 import Upgrade from "views/Upgrade.js";
@@ -55,17 +56,17 @@ const dashboardRoutes = [
     layout: "/admin"
   },
   {
-    path: "/typography",
+    path: "/RCA-EDA",
     name: "RCA/EDA",
     icon: "nc-icon nc-paper-2",
-    component: Typography,
+    component: RcaEda,
     layout: "/admin"
   },
   {
     path: "/icons",
     name: "Simulations",
     icon: "nc-icon nc-atom",
-    component: Icons,
+    component: Simulations,
     layout: "/admin"
   },
   // {

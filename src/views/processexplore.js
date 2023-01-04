@@ -179,7 +179,7 @@ function ProcessExplorer() {
 
   setNodes(nodes)
   setEdges(edges)
-  setElements([...nodes,...edges]);
+  // setElements([...nodes,...edges]);
   var startlist = Object.keys(res['start']).map((key) => [key, res['start'][key]]);
   var endlist = Object.keys(res['end']).map((key) => [key, res['end'][key]]);
 
@@ -196,24 +196,25 @@ function ProcessExplorer() {
   const onElementClick = (event, object) => {
     const graphElements = [object.id];
 
-    setElements((els) => {
-      setEdges((edges) =>
-        edges.sort((a, b) => {
-          if (a.source < b.source) return -1;
-          if (a.source > b.source) return 1;
-          return 0;
-        })
-      );
-      edges.forEach((el) => {
+      // setEdges((edges) =>
+      //   edges.sort((a, b) => {
+      //     if (a.source < b.source) return -1;
+      //     if (a.source > b.source) return 1;
+      //     return 0;
+      //   })
+      // );
+      m = fedges.forEach((el) => {
         if (graphElements.includes(el.source)) {
           graphElements.push(el.target);
           el.animated = true;
         } else {
           el.animated = false;
         }
+      console.log(m)
+      setEdges(m)
       });
-      return [...nodes, ...edges];
-    });
+      return
+
   }
 
   // const onConnect = useCallback((params) => setEdges((eds) => addEdge(params, eds)), [setEdges]);
