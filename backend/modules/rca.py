@@ -23,7 +23,7 @@ from pm4py.visualization.heuristics_net import visualizer as hn_visualizer
 from pm4py.objects.conversion.process_tree import converter as pt_converter
 
 # filters and stats
-from pm4py.algo.filtering.log.attributes import attributes_filter
+# from pm4py.algo.filtering.log.attributes import attributes_filter
 from pm4py.algo.filtering.log.variants import variants_filter
 #from pm4py.statistics.traces.log import case_statistics
 
@@ -151,12 +151,12 @@ def total_variants(event_log_data):
 """If the case would have such a way, that any specific variant is very high in %, then it would have become an interesting story to look into"""
 
 ## Let's see what activities do we have in log? including their frequencies and considering all cases(no filter)
-def activites_distribution(event_log_data):
-  activities = attributes_filter.get_attribute_values(event_log_data, "concept:name")
-  activities_dist = pd.DataFrame(activities.items(), columns= ['Activities', 'Counts'])
-  activities_dist.sort_values(by=['Counts'], inplace=True, ascending = False)
-  activities_dist['Activities_distribution'] = (activities_dist['Counts']/activities_dist['Counts'].sum())*100
-  return(activities_dist)
+# def activites_distribution(event_log_data):
+#   activities = attributes_filter.get_attribute_values(event_log_data, "concept:name")
+#   activities_dist = pd.DataFrame(activities.items(), columns= ['Activities', 'Counts'])
+#   activities_dist.sort_values(by=['Counts'], inplace=True, ascending = False)
+#   activities_dist['Activities_distribution'] = (activities_dist['Counts']/activities_dist['Counts'].sum())*100
+#   return(activities_dist)
 
 
 """Few activities stands out "W_Validate application", "W_Call after offers", "W_Call incomplete files" and "W_Complete application", they have a lot of actions, it could be some sort of self-loop or rework or some other reason ofc, but clearly we should do something to prevent them from becoming bottlenecks
