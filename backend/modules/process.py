@@ -20,6 +20,7 @@ def dfg_create(filtered_event_data , act_perc = 1, path_perc = 1 , view_type = '
            values can range from (d : days) , (h = hours) , (m = mins) , (s : a - default) 
     
     """
+    import pm4py
     from pm4py.statistics.start_activities.log import get as start_activities_module
     from pm4py.statistics.end_activities.log import get as end_activities_module
     from pm4py.utils import get_properties
