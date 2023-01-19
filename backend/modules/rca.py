@@ -24,7 +24,7 @@ from pm4py.objects.conversion.process_tree import converter as pt_converter
 
 # filters and stats
 # from pm4py.algo.filtering.log.attributes import attributes_filter
-from pm4py.algo.filtering.log.variants import variants_filter
+# from pm4py.algo.filtering.log.variants import variants_filter
 #from pm4py.statistics.traces.log import case_statistics
 
 ## tree visualizer
