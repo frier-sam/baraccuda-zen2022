@@ -3,7 +3,7 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
-
+import {baseURL} from '../api/api.js';
 // react-bootstrap components
 // import {Form} from "react-bootstrap";
 
@@ -21,7 +21,7 @@ function UploadView() {
     e.preventDefault();
     const formData = new FormData();
     formData.append('file', file);
-    axios.post('http://127.0.0.1:5000/file-upload', formData).then(res => {
+    axios.post(baseURL +'file-upload', formData).then(res => {
       console.log(res.data);
       history.push('/admin/processminining')
       // navigate("processminining", { replace: true });
