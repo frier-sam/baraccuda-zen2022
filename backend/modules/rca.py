@@ -143,9 +143,9 @@ With Process discovery we aim to find a suitable process model that can describe
 A process variant is a unique path from the very beginning to the very end of the process
 """
 
-def total_variants(event_log_data):
-  variants = variants_filter.get_variants(event_log_data)
-  return(len(variants))
+# def total_variants(event_log_data):
+#   variants = variants_filter.get_variants(event_log_data)
+#   return(len(variants))
 
 
 """If the case would have such a way, that any specific variant is very high in %, then it would have become an interesting story to look into"""
