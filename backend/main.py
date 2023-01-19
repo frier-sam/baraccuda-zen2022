@@ -10,7 +10,9 @@ from modules import RCA,simulation,dfg_create
 app = Flask(__name__)
 CORS(app)
 
-UPLOAD_FOLDER = 'zennovatefiles'
+
+
+UPLOAD_FOLDER = os.path.join(os.path.abspath(os.getcwd()),'zennovatefiles')
 
 
 
