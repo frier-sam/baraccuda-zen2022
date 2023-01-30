@@ -46,7 +46,7 @@ function Sidebar({ color, image, routes }) {
             </div>
           </a>
           <a className="simple-text" href="https://zenon.ai/">
-            Barracuda
+            Zeno Miner
           </a>
         </div>
         <Nav>

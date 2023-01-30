@@ -45,11 +45,14 @@ function RcaEda() {
               </Card.Header>
               <Card.Body>
               {gdata ? 
-              Object.keys(gdata).map(key => {
+              <>Object.keys(gdata).map(key => {
                 var sgdata = JSON.parse(gdata[key])
                 return <Creategraph plotData={sgdata} />
               })
+              <Image src="https://media.geeksforgeeks.org/wp-content/uploads/20210425000233/test-300x297.png" />
+              </>
               : "Please wait loading"}
+              
               </Card.Body>
             </Card>
           </Col>
