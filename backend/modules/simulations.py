@@ -42,6 +42,10 @@ def simulation(dataframe, sample_test_event_dataframe):
   ### iterate through the test event_log and generate a flag where sub-sequence of events are matching in data
   for i in sample_test_log:
     dataframe_work['prob_flag'] = dataframe_work.apply(lambda row : normalise_row(row, i), axis=1) 
-
+  # import warningswarnings.filterwarnings("ignore")
+  # test_scenario = ['Application_1017492916','Application_1004303396','Application_1014301064','Application_1016816804','Application_1017492916','Application_1018615109','Application_1044610848','Application_1044911465']
+  # # create test-case
+  # dataframe_to_test = dataframe[dataframe['case:concept:name'].isin([test_scenario[0]])]
+  # prob = simulation(dataframe, dataframe_to_test)
   probability_of_cancellation = np.round((len(dataframe_work[dataframe_work['prob_flag'] == 1])/len(dataframe_work)),2)
   return (probability_of_cancellation)
