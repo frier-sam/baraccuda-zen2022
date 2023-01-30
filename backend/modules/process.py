@@ -66,7 +66,8 @@ def dfg_create(filtered_event_data , act_perc = 1, path_perc = 1 , view_type = '
     elif unit == 'm':
         factor = 60        
     elif unit == 'd':
-        factor = 3600*24 
+        factor = 3600*1000
+    
 
     values_list = []
     for key in dfg:
@@ -85,13 +86,23 @@ def dfg_create(filtered_event_data , act_perc = 1, path_perc = 1 , view_type = '
     
     nodes.append({ 'id':'Start', 
 #                     'type': 'output',
+                    'style': {
+                    'background': '#63B3ED',
+                    'color': 'white',
+                    'width': 100,
+                    },
                     'data': { 'label': 'Start','volume':'Start ['+str(sum(start_activities.values()))+ ']' },     
                  })
     
     nodes.append({'id':'End', 
 #                   'type': 'input',
+                'style': {
+                    'background': '#d91941',
+                    'color': 'white',
+                    'width': 100,
+                    },
                   'data': { 'label': 'End', 'volume':'End ['+str(sum(end_activities.values()))+ ']' },     
-                         
+                        
                  })
 
     edges = [{'source': elements[0], 
@@ -100,7 +111,10 @@ def dfg_create(filtered_event_data , act_perc = 1, path_perc = 1 , view_type = '
                'cases': elements[3],
               'label': elements[3],
               'type':'smoothstep',
-              'animated': True 
+              'animated': True ,
+              'markerEnd': {
+                'type': 'MarkerType.Arrow',
+                },
              }  for elements in values_list]
     
     

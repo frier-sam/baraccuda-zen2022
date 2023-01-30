@@ -5,7 +5,7 @@ from werkzeug.utils import secure_filename
 from flask_cors import CORS
 import pandas as pd
 import pm4py
-from modules import RCA,simulation,dfg_create
+from modules import RCA,simulation,dfg_create,variant_explorer,kpi
 # app = Flask(__name__)
 app = Flask(__name__)
 CORS(app)
@@ -50,6 +50,18 @@ def ping():
 @app.route('/getrca', methods=['POST','GET'])
 def getrca():
     return RCA(os.path.join(UPLOAD_FOLDER, 'data.csv'))
+
+@app.route('/getkpi', methods=['POST','GET'])
+def getkpi():
+    dataframe  = pd.read_csv(os.path.join(UPLOAD_FOLDER, 'data.csv'))
+    dataframe = pm4py.format_dataframe(dataframe, case_id='case:concept:name', activity_key='concept:name', timestamp_key='time:timestamp')
+    event_log = pm4py.convert_to_event_log(dataframe)
+    return kpi(event_log)
+
+@app.route('/getvariant', methods=['POST','GET'])
+def getvariant():
+    df = pd.read_csv(os.path.join(UPLOAD_FOLDER, 'data.csv'))
+    return variant_explorer(df)
 
 @app.route('/getsimulation', methods=['POST','GET'])
 def getsimulations():
