@@ -15,11 +15,11 @@ def kpi_calculate(event_log):
 
     kpi['min_date']=str(data['dates'].min())
     kpi['max_date']=str(data['dates'].max())
-    kpi['Num of cases']=data['case:concept:name'].nunique()
-    kpi['Activities']=data.shape[0]
-    kpi['Min activities per case']=case_activity_data.min()
-    kpi['Max activities per case']=case_activity_data.max()
-    kpi['Avg activities per case']=case_activity_data.mean()
+    kpi['Num of cases']=int(data['case:concept:name'].nunique())
+    kpi['Activities']=int(data.shape[0])
+    kpi['Min activities per case']=int(case_activity_data.min())
+    kpi['Max activities per case']=int(case_activity_data.max())
+    kpi['Avg activities per case']=int(case_activity_data.mean())
     kpi['Min time per case']=str(case_time_data['date_diff'].min())
     kpi['Max time per case']=str(case_time_data['date_diff'].max())
     kpi['Avg time per case']=str(case_time_data['date_diff'].mean())
