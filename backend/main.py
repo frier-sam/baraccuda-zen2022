@@ -5,7 +5,7 @@ from werkzeug.utils import secure_filename
 from flask_cors import CORS
 import pandas as pd
 import pm4py
-from modules import RCA,simulation,dfg_create,variant_explorer,kpi
+from modules import RCA,simulation,dfg_create,variant_explorer,kpi,filter_pane_rework
 # app = Flask(__name__)
 app = Flask(__name__)
 CORS(app)
@@ -82,6 +82,8 @@ def getrenderdata():
     fdata['path_perc']=float(fdata['path_perc'])
     df = pd.read_csv(os.path.join(UPLOAD_FOLDER, 'data.csv')) 
     event_log = pm4py.format_dataframe(df, case_id='case:concept:name', activity_key='concept:name', timestamp_key='time:timestamp')
+    if 'eventname' in fdata.keys() and 'rework_freq_min' in fdata.keys():
+        event_log = filter_activities_rework(event_log, event_name, rework_freq_min)
     event_log = pm4py.convert_to_event_log(event_log)
     return dfg_create(event_log,**fdata)
 

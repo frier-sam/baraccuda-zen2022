@@ -18,6 +18,7 @@ import {
 import {Creategraph} from './creategraph.js';
 
 import {createGet,createPost} from "../api/apis.js";
+import Spinner from 'react-bootstrap/Spinner';
 
 
 function RcaEda() {
@@ -48,12 +49,11 @@ function RcaEda() {
               <Card.Body>
               {gdata ? 
               <>{Object.keys(gdata).map(key => {
-                sgdata = JSON.parse(gdata[key])
-                return <Creategraph plotData={sgdata} />
+                const sgdata = JSON.parse(gdata[key]);
+                return <Creategraph key={key} plotData={sgdata} />
               })}
-              <Image src="https://media.geeksforgeeks.org/wp-content/uploads/20210425000233/test-300x297.png" />
               </>
-              : "Please wait loading"}
+              : <Spinner animation="border" role="status"></Spinner>}
               
               </Card.Body>
             </Card>

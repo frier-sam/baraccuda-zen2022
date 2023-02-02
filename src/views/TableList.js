@@ -1,6 +1,7 @@
 import React,{useState} from "react";
 import {createGet,createPost} from "../api/apis.js";
 import {Creategraph} from './creategraph.js';
+import Spinner from 'react-bootstrap/Spinner';
 
 // react-bootstrap components
 import {
@@ -108,7 +109,7 @@ function TableList() {
         </Row>
         <Row>
         <Col Col lg="6" md="6" sm="12">
-          {plotdata ? <Creategraph plotData={plotdata} /> : 'Loading'}
+          {plotdata ? <Creategraph plotData={plotdata} /> : <Spinner animation="border" role="status"></Spinner>}
         </Col>
         <Col Col lg="6" md="6" sm="12">
         {variantlist && <Accordion className="col-12">

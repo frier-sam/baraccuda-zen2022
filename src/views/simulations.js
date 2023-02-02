@@ -13,6 +13,8 @@ import {
   Table
 } from "react-bootstrap";
 
+import Spinner from 'react-bootstrap/Spinner';
+
 
 function Simulations() {
 
@@ -64,7 +66,7 @@ function Simulations() {
                         
                       })}
                     </tbody>
-                    </Table> : "Loading"
+                    </Table> : <Spinner animation="border" role="status"></Spinner>
                   }
                 </Row>
               </Card.Body>

@@ -83,12 +83,22 @@ function FixedPlugin({
               {start.map((i,k)=><option value={i[0]}>{i[0]}</option>)}
             </Form.Select>
           </li>
-          <li className="button-container mb-4">
+          {/* <li className="button-container mb-4">
           <p>End Node</p>
-            <Form.Select size="sm" value={selectedend} onChange={setEnd}>
+            <Form.Select size="sm" multiple value={selectedend} onChange={setEnd}>
               {end.map((i,k)=><option value={i[0]}>{i[0]}</option>)}
             </Form.Select>
-          </li>
+          </li> */}
+          <li>
+            <Form.Control as="select" multiple value={selectedend} onChange={setEnd}>
+            <p>End Node</p>
+              {end.map(options => (
+                <option key={options[0]} value={options[0]}>
+                  {options[0]}
+                </option>
+              ))}
+            </Form.Control>
+            </li>
           <li className="button-container mb-4">
             <Form.Label>Pathlenght</Form.Label>
             <br/>

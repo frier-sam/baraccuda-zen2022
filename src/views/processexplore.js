@@ -68,8 +68,8 @@ function ProcessExplorer() {
  
 
   const [filterstate, setFilterstate] = useState({
-    'act_perc':1,
-    'path_perc':1,
+    'act_perc':0.3,
+    'path_perc':0.3,
     'view_type':'act_cnt',
     'unit':'hours'
   });

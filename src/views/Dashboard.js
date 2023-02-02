@@ -1,6 +1,10 @@
 import React,{useState} from "react";
 import ChartistGraph from "react-chartist";
 import {createGet,createPost} from "../api/apis.js";
+
+import Spinner from 'react-bootstrap/Spinner';
+
+
 // react-bootstrap components
 import {
   Badge,
@@ -66,7 +70,11 @@ function Dashboard() {
                   <Col xs="7">
                     <div className="numbers">
                       <p className="card-category">Cases</p>
-                      <Card.Title as="h4">{numcases}</Card.Title>
+                      <Card.Title as="h4">{numcases ? numcases : 
+                          <Spinner animation="border" role="status">
+                            
+                          </Spinner>}
+                      </Card.Title>
                     </div>
                   </Col>
                 </Row>
@@ -86,7 +94,10 @@ function Dashboard() {
                   <Col xs="7">
                     <div className="numbers">
                       <p className="card-category">Activities</p>
-                      <Card.Title as="h4">{acts}</Card.Title>
+                      <Card.Title as="h4">{acts? acts : 
+                          <Spinner animation="border" role="status">
+                           
+                          </Spinner>}</Card.Title>
                     </div>
                   </Col>
                 </Row>
@@ -116,7 +127,7 @@ function Dashboard() {
 
         </Row>
         <Row>
-          <Col md="8">
+          {numcases ? <Col md="8">
             <Card>
               <Card.Header>
                 <Card.Title as="h4">Event in Time</Card.Title>
@@ -187,7 +198,7 @@ function Dashboard() {
                 </div>
               </Card.Footer>
             </Card>
-          </Col>
+          </Col> :  <Spinner animation="border" role="status"></Spinner> }
           <Col md="4">
             <Card>
               <Card.Header>
