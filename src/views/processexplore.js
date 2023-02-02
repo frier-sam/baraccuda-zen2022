@@ -65,14 +65,36 @@ function ProcessExplorer() {
   const [selectedstart, setSelectedstart] = useState();
   const [selectedend, setSelectedend] = useState([]);
   const [pathlenght , setPathlenght] = useState(0);
+  const [loading , setLoading] = useState(false)
  
 
   const [filterstate, setFilterstate] = useState({
-    'act_perc':0.3,
-    'path_perc':0.3,
+    'act_perc':0.7,
+    'path_perc':0.5,
     'view_type':'act_cnt',
-    'unit':'hours'
+    'unit':'hours',
+    'endnode':[],
+    'view_type':'act_cnt'
   });
+
+  const handlefilterlistChange = (event) => {
+    // setFilterstate((prevState) => ({
+    //   ...prevState,
+    //   [event.target.name]: event.target.selectedOptions,
+    // }));
+    console.log(event.target.selectedOptions);
+    var selectedItems = event.target.selectedOptions;
+    const flavors = [];
+        for (let i=0; i<selectedItems.length; i++) {
+            flavors.push(selectedItems[i].value);
+        }
+    console.log(flavors);
+    setFilterstate((prevState) => ({
+        ...prevState,
+        [event.target.name]: flavors,
+      }));
+  }
+
   const handlefilterChange = (event) => {
     setFilterstate((prevState) => ({
       ...prevState,
@@ -97,6 +119,7 @@ function ProcessExplorer() {
   );
 
   const updateNodeapi = () =>{
+    setLoading(true);
     getnodes(filterstate).then((res)=>{
       console.log(res['dfg'][0]);
     const nodes = res['dfg'][0];
@@ -138,6 +161,7 @@ function ProcessExplorer() {
   
     setStartfilter(startlist)
     setEndfilter(endlist)
+    setLoading(false)
     }).then(()=>
     {console.log('fnodes',fnodes);
       console.log('fedges',fedges);}
@@ -241,13 +265,13 @@ function ProcessExplorer() {
     </ReactFlow>
    }
     <FixedPlugin
-
+    loading = {loading}
     start = {startfilter}
     selectedstart= {selectedstart}
     setStart = {setSelectedstart}
     end = {endfilter}
     selectedend= {selectedend}
-    setEnd = {setSelectedend}
+    setEnd = {handlefilterlistChange}
     pathlenght = {pathlenght}
     setPathlenght = {setPathlenght}
     

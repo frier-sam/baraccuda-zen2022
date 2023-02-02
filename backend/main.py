@@ -6,6 +6,7 @@ from flask_cors import CORS
 import pandas as pd
 import pm4py
 from modules import RCA,simulation,dfg_create,variant_explorer,kpi,filter_pane_rework
+# from pm4py import filter_start_activities
 # app = Flask(__name__)
 app = Flask(__name__)
 CORS(app)
@@ -85,6 +86,9 @@ def getrenderdata():
     if 'eventname' in fdata.keys() and 'rework_freq_min' in fdata.keys():
         event_log = filter_activities_rework(event_log, event_name, rework_freq_min)
     event_log = pm4py.convert_to_event_log(event_log)
+    if len(fdata['endnode'])>0:
+        event_log = pm4py.filter_end_activities(event_log , fdata['endnode'])
+    
     return dfg_create(event_log,**fdata)
 
 if __name__ == "__main__":

@@ -61,12 +61,16 @@ def dfg_create(filtered_event_data , act_perc = 1, path_perc = 1 , view_type = '
   
     factor = 1
     
-    if unit == 'h':
+    if unit == 'hours':
         factor = 3600
-    elif unit == 'm':
+    elif unit == 'mins':
         factor = 60        
-    elif unit == 'd':
+    elif unit == 'days':
         factor = 3600*1000
+
+    # if view_type!='performace':
+    #     factor = 1
+    #     unit = ''
     
 
     values_list = []
