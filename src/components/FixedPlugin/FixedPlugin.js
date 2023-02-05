@@ -81,7 +81,7 @@ function FixedPlugin({
           <Form.Select name='view_type' value={filterstate.view_type} onChange={handlefilterChange}>
             <option value="act_cnt">Activity or event count</option>
             <option value="case_cnt">Case Count</option>
-            <option value="performace">Time between two activities</option>
+            <option value="performance">Time between two activities</option>
           </Form.Select>
           </li>
           <li className="button-container">

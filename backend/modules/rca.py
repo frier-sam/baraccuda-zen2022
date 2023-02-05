@@ -184,7 +184,7 @@ def tree_visualizer_RCA(event_log_data):
 
 
   gviz = dectree_visualizer.apply(clf, feature_names, classes)
-  return(gviz)
+  return gviz
 
 
 def RCA(event_log_data_csv):
@@ -197,7 +197,8 @@ def RCA(event_log_data_csv):
   loan_distribution = loan_dist(filtered_data(dataframe,'mean', 'sum'))
   #veriant_distributions = veriant_distribution(event_log).head()
   #activites_distributions = activites_distribution(event_log).head()
-  tree_visualizer_RCA1 = tree_visualizer_RCA(event_log)# dectree_visualizer.view()
+  # tree_visualizer_RCA1 = tree_visualizer_RCA(event_log)# dectree_visualizer.view()
+  # tree_visualizer_RCA1.
   return {'Loan-distribution':pio.to_json(loan_goal_distribution),
           'application_type_distribution': pio.to_json(application_type_distribution), 
           'requested_amount_distribution':pio.to_json(requested_amount_distribution), 

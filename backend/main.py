@@ -8,7 +8,9 @@ import pm4py
 from modules import RCA,simulation,dfg_create,variant_explorer,kpi,filter_pane_rework
 # from pm4py import filter_start_activities
 # app = Flask(__name__)
-app = Flask(__name__)
+app = Flask(__name__,
+            static_url_path='/static', 
+            static_folder='static')
 CORS(app)
 
 

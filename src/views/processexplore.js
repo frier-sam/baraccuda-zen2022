@@ -2,6 +2,7 @@ import React, { useState, useCallback } from "react";
 // import { useCallback } from 'react';
 
 import {createGet,createPost} from "../api/apis.js";
+import { SmartBezierEdge,SmartStepEdge } from '@tisoap/react-flow-smart-edge'
 
 import { MarkerType } from 'reactflow';
 
@@ -36,6 +37,11 @@ import 'reactflow/dist/style.css';
 import './flow.css';
 import dagre from 'dagre';
 import FixedPlugin from "../components/FixedPlugin/FixedPlugin.js";
+
+const edgeTypes = {
+	smart: SmartBezierEdge,
+  smartstep:SmartStepEdge
+}
 
 const initialNodes = [
   { id: '1',position:{x:0,y:0},  data: { label: '1' } },
@@ -257,6 +263,7 @@ function ProcessExplorer() {
       onEdgesChange={onEdgesChange}
       onElementClick={onElementClick}
       onInit={onInit}
+      edgeTypes={edgeTypes}
       fitView
     >
       <MiniMap />

@@ -14,7 +14,7 @@ def dfg_create(filtered_event_data , act_perc = 1, path_perc = 1 , view_type = '
     view_type : Type of edge values 
                 values can range from act_cnt : activity or event count
                                       case_cnt : case count
-                                      performace : time between two activities
+                                      performance : time between two activities
     
     unit : unit of time in case of performace type metric:
            values can range from (d : days) , (h = hours) , (m = mins) , (s : a - default) 
@@ -68,9 +68,9 @@ def dfg_create(filtered_event_data , act_perc = 1, path_perc = 1 , view_type = '
     elif unit == 'days':
         factor = 3600*1000
 
-    # if view_type!='performace':
-    #     factor = 1
-    #     unit = ''
+    if view_type!='performance':
+        factor = 1
+        unit = ''
     
 
     values_list = []
@@ -114,7 +114,7 @@ def dfg_create(filtered_event_data , act_perc = 1, path_perc = 1 , view_type = '
                'weight': elements[2], 
                'cases': elements[3],
               'label': elements[3],
-              'type':'smoothstep',
+              'type':'smartstep',
               'animated': True ,
               'markerEnd': {
                 'type': 'MarkerType.Arrow',

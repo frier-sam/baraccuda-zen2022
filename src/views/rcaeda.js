@@ -1,5 +1,7 @@
 import React,{useState} from "react";
 
+import {baseURL} from "../api/apis";
+
 
 // react-bootstrap components
 import {
@@ -10,7 +12,7 @@ import {
   Nav,
   Container,
   Row,
-  Col,
+  Col,Image
 } from "react-bootstrap";
 // import Plot from 'react-plotly.js';
 // import Plotly from 'plotly.js/dist/plotly';
@@ -52,6 +54,7 @@ function RcaEda() {
                 const sgdata = JSON.parse(gdata[key]);
                 return <Creategraph key={key} plotData={sgdata} />
               })}
+              <Image className="col-12" src={baseURL+"/static/tree.png"}/>
               </>
               : <Spinner animation="border" role="status"></Spinner>}
               
