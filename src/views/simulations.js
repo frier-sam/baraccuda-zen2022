@@ -23,7 +23,7 @@ function Simulations() {
   React.useEffect(() => {
     async function fetchData() {
       var res = await createGet('getsimulation');
-      setSdata(res.Cases);
+      setSdata(res['result']);
      
     }
     fetchData();
@@ -47,20 +47,20 @@ function Simulations() {
                     <Table className="table-hover table-striped">
                       <thead>
                     <tr>
-                      <th className="border-0">Event</th>
-                      <th className="border-0">Probability</th>
+                      <th className="border-0">Case ID</th>
+                      <th className="border-0">Probability Of Cancellation</th>
                     </tr>
                   </thead>
                     <tbody>
-                      {
-                      Object.keys(sdata).map((key) => {
-                        console.log(sdata);
+                      { sdata && 
+                      sdata.map((i) => {
+                       
                       return <tr>
                           <td>
-                            {key}
+                            {i[0]}
                           </td>
                           <td>
-                            {sdata[key]}
+                            {i[1]}
                           </td>
                         </tr>
                         

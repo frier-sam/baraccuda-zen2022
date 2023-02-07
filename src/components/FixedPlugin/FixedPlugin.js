@@ -23,6 +23,9 @@ import { Dropdown, Badge, Button, Form } from "react-bootstrap";
 
 import Spinner from 'react-bootstrap/Spinner';
 
+
+const eventlist = ['A_Create Application', 'A_Submitted', 'W_Handle leads', 'W_Complete application', 'A_Concept', 'A_Accepted', 'O_Create Offer', 'O_Created', 'O_Sent (mail and online)', 'W_Call after offers', 'A_Complete', 'A_Cancelled', 'O_Cancelled', 'W_Validate application', 'A_Validating', 'O_Returned', 'O_Accepted', 'A_Pending', 'A_Denied', 'O_Refused', 'W_Call incomplete files', 'A_Incomplete'];
+
 function FixedPlugin({
   loading,start,setStart,end,setEnd,pathlenght,setPathlenght,selectedstart,selectedend,
   
@@ -56,74 +59,80 @@ function FixedPlugin({
         <Dropdown.Menu>
 
           <li className="button-container">
-            <Form.Label>Percentage Frequency : </Form.Label>
-           
+            <Form.Label>Percentage Frequency : </Form.Label>           
             <input type="number" name="path_perc" min="0.1" max="1" step="0.05" value={filterstate.path_perc} onChange={handlefilterChange} />
-
           </li>
           <li className="button-container">
             <Form.Label>Percentage Activity : </Form.Label>
-           
             <input type="number" name="act_perc" min="0.1" max="1" step="0.05" value={filterstate.act_perc} onChange={handlefilterChange} />
-
           </li>
           <li className="button-container">
-          <Form.Label>Unit : </Form.Label>
-          <Form.Select name='unit' value={filterstate.unit} onChange={handlefilterChange}>
-            <option value="seconds">seconds</option>
-            <option value="hours">Hours</option>
-            <option value="mins">Minutes</option>
-            <option value="days">Days</option>
-          </Form.Select>
-          </li>
+            <Form.Label>View Type : .</Form.Label>
+            <Form.Select name='view_type' value={filterstate.view_type} onChange={handlefilterChange}>
+              <option value="act_cnt">Event count</option>
+              <option value="case_cnt">Case Count</option>
+              <option value="performance">Duration</option>
+            </Form.Select>
+          </li>        
           <li className="button-container">
-          <Form.Label>View Type : </Form.Label>
-          <Form.Select name='view_type' value={filterstate.view_type} onChange={handlefilterChange}>
-            <option value="act_cnt">Activity or event count</option>
-            <option value="case_cnt">Case Count</option>
-            <option value="performance">Time between two activities</option>
-          </Form.Select>
-          </li>
-          <li className="button-container">
-            <br/>
-          <Form.Label>Start Node : </Form.Label>
-            <Form.Select size="sm" value={selectedstart} onChange={setStart}>
-              {start.map((i,k)=><option value={i[0]}>{i[0]}</option>)}
+            <Form.Label>Unit : .</Form.Label>
+            <Form.Select name='unit' value={filterstate.unit} onChange={handlefilterChange}>
+              <option value="seconds">seconds</option>
+              <option value="hours">Hours</option>
+              <option value="mins">Minutes</option>
+              <option value="days">Days</option>
             </Form.Select>
           </li>
-          {/* <li className="button-container mb-4">
-          <p>End Node</p>
-            <Form.Select size="sm" multiple value={selectedend} onChange={setEnd}>
-              {end.map((i,k)=><option value={i[0]}>{i[0]}</option>)}
-            </Form.Select>
-          </li>  //value={filterstate.endnode}*/}
+          <li className="button-container">
+            <Form.Label>Start Node : </Form.Label>
+              <Form.Select size="sm" value={selectedstart} onChange={setStart}>
+                {start.map((i,k)=><option value={i[0]}>{i[0]}</option>)}
+              </Form.Select>
+          </li>
+     
           <li className="" style={{
             'width': '100%',
             'min-height': 'inherit',
             'text-align': 'center',
-          }}>
-          <Form.Label>End Node</Form.Label>
-          <br/>
-            <Form.Control name='endnode' as="select" multiple value={filterstate.endnode}  onChange={setEnd}> 
-              {end.map(options => (
-                <option key={options[0]} value={options[0]}>
-                  {options[0]}
-                </option>
-              ))}
-            </Form.Control>
+            }}>
+            <Form.Label>End Node</Form.Label>
+            
+              <Form.Control name='endnode' as="select" multiple value={filterstate.endnode}  onChange={setEnd}> 
+                {end.map(options => (
+                  <option key={options[0]} value={options[0]}>
+                    {options[0]}
+                  </option>
+                ))}
+              </Form.Control>
+          </li>
+          
+   
+         
+
+          <li className="button-container">
+          <Form.Label><bold><h4>Rework</h4></bold></Form.Label>
+          </li>
+            <li className="button-container">
+              <Form.Label>Event Name :</Form.Label>
+              <Form.Select name='eventname' value={filterstate.eventname}  onChange={handlefilterChange}>
+                {eventlist.map((i,key)=><option key={key} value={i}>{i}</option>)}
+              </Form.Select>
             </li>
             <br/>
-          {/* <li className="button-container mb-4">
-            <Form.Label>Pathlenght</Form.Label>
-            <br/>
-            <input type="number"  value={pathlenght} onChange={setPathlenght} />
+            <li className="button-container mt-3" >
+              <Form.Label> Frequency : </Form.Label>           
+              <input type="number" name="frequency" min="0" max="100" step="1" value={filterstate.frequency} onChange={handlefilterChange} />
+            </li>
 
-          </li> */}
+       
+         
+
           {loading && <Spinner animation="border" role="status"></Spinner>}
           <li className="button-container mb-4">
             <Button variant="primary" onClick={()=>updatenode()}>Update</Button>
           </li>
-          <li className="button-container mb-4">
+        
+          <li className="button-container mb-4" >
             <Button variant="primary" onClick={()=>window.location.reload()}>Reset Filters</Button>
           </li>
           

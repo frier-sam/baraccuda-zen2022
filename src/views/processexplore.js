@@ -81,6 +81,7 @@ function ProcessExplorer() {
     'unit':'hours',
     'endnode':[],
     'view_type':'act_cnt'
+ 
   });
 
   const handlefilterlistChange = (event) => {

@@ -3,6 +3,7 @@ import {createGet,createPost} from "../api/apis.js";
 import {Creategraph} from './creategraph.js';
 import Spinner from 'react-bootstrap/Spinner';
 
+
 // react-bootstrap components
 import {
   Badge,
@@ -35,8 +36,9 @@ function TableList() {
       setTotalcases(res['num_cases'])
       setTotalevents(res['total_events'])
       setTotalvariants(res['number_variants'])
-      setPlotdata(res['plot_data'])
+      setPlotdata(JSON.parse(res['plot_data']))
       setVariantlist(res['variant_top10'])
+
 
 
     }
@@ -108,10 +110,12 @@ function TableList() {
           </Col>
         </Row>
         <Row>
-        <Col Col lg="6" md="6" sm="12">
-          {plotdata ? <Creategraph plotData={plotdata} /> : <Spinner animation="border" role="status"></Spinner>}
+        
+        <Col Col lg="12" md="12" sm="12">
+              
+              {plotdata ? <Creategraph plotData={plotdata} /> : <Spinner animation="border" role="status"></Spinner>}
         </Col>
-        <Col Col lg="6" md="6" sm="12">
+        {/* <Col Col lg="6" md="6" sm="12">
         {variantlist && <Accordion className="col-12">
               {variantlist.map((variant,e)=>
                 <Accordion.Item eventKey={e}>
@@ -124,7 +128,7 @@ function TableList() {
               )}
           </Accordion>
           }
-        </Col>
+        </Col> */}
         </Row>
       </Container>
     </>
