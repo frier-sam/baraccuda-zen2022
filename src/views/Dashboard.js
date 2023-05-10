@@ -3,6 +3,9 @@ import ChartistGraph from "react-chartist";
 import {createGet,createPost} from "../api/apis.js";
 
 import Spinner from 'react-bootstrap/Spinner';
+import moment from "moment";
+import './dashboard.css';
+
 
 
 // react-bootstrap components
@@ -54,6 +57,23 @@ function Dashboard() {
     }
     fetchData();
   }, []);
+
+  const formatDuration = (durationString) => {
+    // const duration = moment.duration(durationString);
+    // console.log(duration)
+    // const days = duration.days() + duration.months() * 30 + duration.years() * 365;
+    // const hours = duration.hours();
+    const ar = durationString.split("days")
+    if (ar.length >1){
+      return `${ar[0]} Days`;
+    }
+    else{
+      return durationString
+    }
+    
+    return ;//`${days} days ${hours} hours`;
+  };
+  
   return (
     <>
       <Container fluid>
@@ -117,7 +137,10 @@ function Dashboard() {
                   <Col xs="10">
                     <div className="numbers">
                       <p className="card-category">Time Period</p>
-                      <Card.Title as="h4">{min_date} || {max_date}</Card.Title>
+                      <Card.Title as="h4">
+                        {moment(min_date).format("MMM Do,YY")} - {moment(max_date).format("MMM Do,YY")}
+                      </Card.Title>
+                      {/* <Card.Title as="h4">{min_date} || {max_date}</Card.Title> */}
                     </div>
                   </Col>
                 </Row>
@@ -127,7 +150,50 @@ function Dashboard() {
 
         </Row>
         <Row>
-          {numcases ? <Col md="8">
+        <Col md="6">
+            <Card>
+              <Card.Header>
+                <Card.Title as="h4">Overview</Card.Title>
+                {/* <p className="card-category">Last Campaign Performance</p> */}
+              </Card.Header>
+              <Card.Body>
+           
+                <Table className="table-hover table-striped">
+                  <tbody>
+                    <tr>
+                      <td>Avg activities per case</td>
+                      <td>{avg_act_per_case}</td>
+                    </tr>
+                    
+                    <tr>
+                      <td>Max activities per case</td>
+                      <td>{max_act_per_case}</td>
+                    </tr>
+                    <tr>
+                      <td>Min activities per case</td>
+                      <td>{min_act_per_case}</td>
+                    </tr>
+                    <tr>
+                      <td>Avg time per case</td>
+                      <td>{avg_time_per_case && formatDuration(avg_time_per_case)}</td>
+                    </tr>
+                    <tr>
+                      <td>Max time per case</td>
+                      <td>{max_time_per_case && formatDuration(max_time_per_case)}</td>
+                    </tr>
+                    <tr>
+                      <td>Min time per case</td>
+                      <td>{min_time_per_case && formatDuration(min_time_per_case)}</td>
+                    </tr>
+                    
+                    
+                  </tbody>
+                </Table>
+              </Card.Body>
+            </Card>
+          </Col>               
+
+          {numcases ? <Col md="6">
             <Card>
               <Card.Header>
                 <Card.Title as="h4">Event in Time</Card.Title>
@@ -199,48 +265,7 @@ function Dashboard() {
               </Card.Footer>
             </Card>
           </Col> :  <Spinner animation="border" role="status"></Spinner> }
-          <Col md="4">
-            <Card>
-              <Card.Header>
-                <Card.Title as="h4">Overview</Card.Title>
-                {/* <p className="card-category">Last Campaign Performance</p> */}
-              </Card.Header>
-              <Card.Body>
-           
-                <Table className="table-hover table-striped">
-                  <tbody>
-                    <tr>
-                      <td>Avg activities per case</td>
-                      <td>{avg_act_per_case}</td>
-                    </tr>
-                    
-                    <tr>
-                      <td>Max activities per case</td>
-                      <td>{max_act_per_case}</td>
-                    </tr>
-                    <tr>
-                      <td>Min activities per case</td>
-                      <td>{min_act_per_case}</td>
-                    </tr>
-                    <tr>
-                      <td>Avg time per case</td>
-                      <td>{avg_time_per_case}</td>
-                    </tr>
-                    <tr>
-                      <td>Max time per case</td>
-                      <td>{max_time_per_case}</td>
-                    </tr>
-                    <tr>
-                      <td>Min time per case</td>
-                      <td>{min_time_per_case}</td>
-                    </tr>
-                    
-                    
-                  </tbody>
-                </Table>
-              </Card.Body>
-            </Card>
-          </Col>
+          
         </Row>
        
       </Container>

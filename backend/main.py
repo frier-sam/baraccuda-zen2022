@@ -105,4 +105,4 @@ def getrenderdata():
     return dfg_create(event_log,**fdata)
 
 if __name__ == "__main__":
-    app.run()
+    app.run(port=5200)
