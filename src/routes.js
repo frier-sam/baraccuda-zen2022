@@ -23,7 +23,9 @@ import RcaEda from "views/rcaeda.js";
 import Simulations from "views/simulations.js";
 import Maps from "views/Maps.js";
 import Notifications from "views/Notifications.js";
+import Benchmark from "views/Benchmark";
 import Upgrade from "views/Upgrade.js";
+import Conformance from "views/Conformance"
 
 const dashboardRoutes = [
   // {
@@ -76,6 +78,21 @@ const dashboardRoutes = [
   //   component: Maps,
   //   layout: "/admin"
   // },
+  
+  {
+    path: "/Conformance",
+    name: "Conformance",
+    icon: "nc-icon nc-attach-87",
+    component: Conformance,
+    layout: "/admin"
+  },
+  {
+    path: "/Benchmark",
+    name: "Benchmark",
+    icon: "nc-icon nc-chart",
+    component: Benchmark,
+    layout: "/admin"
+  },
   {
     path: "/notifications",
     name: "Notifications",

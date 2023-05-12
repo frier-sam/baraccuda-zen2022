@@ -1,10 +1,11 @@
-import React,{useState} from "react";
-import {createGet,createPost} from "../api/apis.js";
+import React,{useState, useEffect} from "react";
+import {createGet} from "../api/apis.js";
 import {Creategraph} from './creategraph.js';
 import Spinner from 'react-bootstrap/Spinner';
+import Dropdown from 'react-bootstrap/Dropdown';
+import './varient.css'
 
 
-// react-bootstrap components
 import {
   Badge,
   Button,
@@ -25,25 +26,32 @@ function TableList() {
   const [totalvariants, setTotalvariants] = useState(null);
   const [plotdata, setPlotdata] = useState(null);
   const [variantlist, setVariantlist] = useState(null);
+  const [variants, setVariants] = useState(null); // to store variant data
+  const [selectedVariant, setSelectedVariant] = useState(null); // to store selected variant key
 
 
-  React.useEffect(() => {
+
+  useEffect(() => {
     async function fetchData() {
       var res = await createGet('getvariant');
-      // setGdata(res);
-      
       console.log(res)
       setTotalcases(res['num_cases'])
       setTotalevents(res['total_events'])
       setTotalvariants(res['number_variants'])
       setPlotdata(JSON.parse(res['plot_data']))
       setVariantlist(res['variant_top10'])
-
-
-
+      setVariants(res['Varients']) // store the Varients data in state
     }
     fetchData();
   }, []);
+
+  const unique = (arr) => [...new Set(arr)]
+ 
+
+  // handle the variant selection from dropdown
+  const handleVariantSelect = (key) => {
+    setSelectedVariant(key);
+  }
   return (
     <>
       <Container fluid>
@@ -112,7 +120,30 @@ function TableList() {
         <Row>
         
         <Col Col lg="12" md="12" sm="12">
+          <Card>
+            <Card.Body>
+              <Dropdown onSelect={handleVariantSelect}>
+                <Dropdown.Toggle variant="success" id="dropdown-basic">
+                  Select Variant
+                </Dropdown.Toggle>
+
+                <Dropdown.Menu>
+                  {variants && Object.keys(variants).map((key) => 
+                    <Dropdown.Item eventKey={key}>Variant {key}</Dropdown.Item>
+                  )}
+                </Dropdown.Menu>
+              </Dropdown>
               
+              {selectedVariant && <div className="flow-chart">
+                {unique(variants[selectedVariant]).map((node, i) => 
+                  <React.Fragment key={i}>
+                    <span className="node">{node}</span>
+                    {i < variants[selectedVariant].length - 1 && <span className="arrow">--></span>}
+                  </React.Fragment>
+                )}
+              </div>}
+              </Card.Body>
+            </Card>
               {plotdata ? <Creategraph plotData={plotdata} /> : <Spinner animation="border" role="status"></Spinner>}
         </Col>
         {/* <Col Col lg="6" md="6" sm="12">

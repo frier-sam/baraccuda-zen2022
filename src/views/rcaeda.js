@@ -18,6 +18,7 @@ import {
 // import Plotly from 'plotly.js/dist/plotly';
 
 import {Creategraph} from './creategraph.js';
+import treeimg from './tree.png'
 
 import {createGet,createPost} from "../api/apis.js";
 import Spinner from 'react-bootstrap/Spinner';
@@ -54,9 +55,10 @@ function RcaEda() {
                 const sgdata = JSON.parse(gdata[key]);
                 return <Creategraph key={key} plotData={sgdata} />
               })}
-              <Image className="col-12" src={baseURL+"/static/tree.png"}/>
+              <Image className="col-12" src={treeimg}/>
               </>
               : <Spinner animation="border" role="status"></Spinner>}
+
               
               </Card.Body>
             </Card>

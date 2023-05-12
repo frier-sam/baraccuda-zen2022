@@ -1,0 +1,19 @@
+.flow-chart {
+    display: flex;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+  
+  .node {
+    margin: 5px;
+    padding: 5px 10px;
+    border-radius: 5px;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    display: inline-block;
+  }
+  
+  .arrow {
+    margin: 5px;
+    display: inline-block;
+  }
