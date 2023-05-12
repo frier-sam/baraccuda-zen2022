@@ -44,7 +44,7 @@ def variant_explorer(event_file, topn=10):
         return top_n_values
     
     
-    filtered_log = top_n_values(data_dict,10)
+    filtered_log = top_n_values(data_dict,topn)
     data_dict_list_ordered = sorted(data_dict.items(), key=lambda x:x[1], reverse=True)
     data_dict_ordered = dict(data_dict_list_ordered)
     

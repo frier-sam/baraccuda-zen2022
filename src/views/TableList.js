@@ -128,8 +128,8 @@ function TableList() {
                 </Dropdown.Toggle>
 
                 <Dropdown.Menu>
-                  {variants && Object.keys(variants).map((key) => 
-                    <Dropdown.Item eventKey={key}>Variant {key}</Dropdown.Item>
+                  {variants && Object.keys(variants).map((key,enu) => 
+                    <Dropdown.Item eventKey={key}>Variant {enu+1}</Dropdown.Item>
                   )}
                 </Dropdown.Menu>
               </Dropdown>
