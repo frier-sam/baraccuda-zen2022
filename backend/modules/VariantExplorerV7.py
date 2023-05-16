@@ -3,7 +3,11 @@ import operator
 import matplotlib.pyplot as plt
 import plotly.io as pio
 import numpy as np
-def variant_explorer(event_file, topn=10):
+from .process import dfg_create
+
+
+
+def variant_explorer(event_file, topn, act_perc = 1, path_perc = 1 , view_type = 'act_cnt',unit='hours',**kwargs):
 
     """
     event_file is the dataframe
@@ -29,6 +33,8 @@ def variant_explorer(event_file, topn=10):
     for i in data_dict.values():
         cases = cases+i
 
+    
+
 #   ordering the dict containing keys as the variant and values as the freq of it        
     def top_n_values(data, n):
         # Invert the keys and values.
@@ -44,10 +50,16 @@ def variant_explorer(event_file, topn=10):
         return top_n_values
     
     
-    filtered_log = top_n_values(data_dict,topn)
+    filtered_log_n_top_tree = top_n_values(data_dict,topn)
     data_dict_list_ordered = sorted(data_dict.items(), key=lambda x:x[1], reverse=True)
     data_dict_ordered = dict(data_dict_list_ordered)
-    
+
+    variants = list(data_dict_ordered.keys())
+    variants = variants[:topn]
+    filtered_varient_log = pm4py.filtering.filter_variants(event_log, variants)
+
+    dfg = dfg_create(filtered_varient_log)['dfg']
+
     # -------------- CREATE DATAFRAME TO PLOT -------------------#
 
     event_file5 = pd.DataFrame(columns=['freq','Variant','sub_variant','size'])
@@ -106,8 +118,9 @@ def variant_explorer(event_file, topn=10):
             "total_events":event_file.shape[0],
             "number_variants":len(data_dict),
             "num_cases":  cases, 
-            "Varients":filtered_log,
-            'plot_data':pio.to_json(fig)
+            "Varients":filtered_log_n_top_tree,
+            'plot_data':pio.to_json(fig),
+            'dfg':dfg
             }
     # return {
     #     'total_events':total_events,

@@ -65,7 +65,12 @@ def getkpi():
 @app.route('/getvariant', methods=['POST','GET'])
 def getvariant():
     df = pd.read_csv(os.path.join(UPLOAD_FOLDER, 'data.csv'))
-    return variant_explorer(df)
+    topn = request.args.get("topn")
+    
+    if topn:
+        topn = int(topn)
+        return variant_explorer(df,topn=topn)
+    return variant_explorer(df,topn=1)
 
 @app.route('/getsimulation', methods=['POST','GET'])
 def getsimulations():

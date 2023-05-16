@@ -3,7 +3,8 @@ import {createGet} from "../api/apis.js";
 import {Creategraph} from './creategraph.js';
 import Spinner from 'react-bootstrap/Spinner';
 import Dropdown from 'react-bootstrap/Dropdown';
-import './varient.css'
+import './varient.css';
+import ProcessExplorerWidget from './processwidget.js'
 
 
 import {
@@ -19,6 +20,7 @@ import {
 } from "react-bootstrap";
 import Accordion from 'react-bootstrap/Accordion';
 
+
 function TableList() {
 
   const [totalevents, setTotalevents] = useState(null);
@@ -28,29 +30,39 @@ function TableList() {
   const [variantlist, setVariantlist] = useState(null);
   const [variants, setVariants] = useState(null); // to store variant data
   const [selectedVariant, setSelectedVariant] = useState(null); // to store selected variant key
+  const [elements,setElements] = useState(null)
 
-
+  async function fetchData() {
+    if (selectedVariant){ 
+      var res = await createGet('getvariant?topn='+selectedVariant);
+      }
+    else{ 
+        var res = await createGet('getvariant');
+      }
+    // var res = await createGet('getvariant');
+    console.log(res)
+    setTotalcases(res['num_cases'])
+    setTotalevents(res['total_events'])
+    setTotalvariants(res['number_variants'])
+    setPlotdata(JSON.parse(res['plot_data']))
+    setVariantlist(res['variant_top10'])
+    setVariants(res['Varients']) // store the Varients data in state
+    setElements({'dfg':res['dfg']})
+  }
 
   useEffect(() => {
-    async function fetchData() {
-      var res = await createGet('getvariant');
-      console.log(res)
-      setTotalcases(res['num_cases'])
-      setTotalevents(res['total_events'])
-      setTotalvariants(res['number_variants'])
-      setPlotdata(JSON.parse(res['plot_data']))
-      setVariantlist(res['variant_top10'])
-      setVariants(res['Varients']) // store the Varients data in state
-    }
+    
     fetchData();
-  }, []);
+  }, [selectedVariant]);
 
   const unique = (arr) => [...new Set(arr)]
  
 
   // handle the variant selection from dropdown
   const handleVariantSelect = (key) => {
+    console.log('key',key)
     setSelectedVariant(key);
+    // fetchData();
   }
   return (
     <>
@@ -119,8 +131,11 @@ function TableList() {
         </Row>
         <Row>
         
-        <Col Col lg="12" md="12" sm="12">
-          <Card>
+        <Col  lg="6" md="6" sm="6">
+    
+                  
+    
+          {/* <Card>
             <Card.Body>
               <Dropdown onSelect={handleVariantSelect}>
                 <Dropdown.Toggle variant="success" id="dropdown-basic">
@@ -143,9 +158,24 @@ function TableList() {
                 )}
               </div>}
               </Card.Body>
-            </Card>
+            </Card> */}
+            <Dropdown onSelect={handleVariantSelect}>
+                <Dropdown.Toggle variant="success" id="dropdown-basic">
+                  Number of Variant
+                </Dropdown.Toggle>
+
+                <Dropdown.Menu>
+                  {[1,2,3,4,5,6,7,8,9,10].map((key,enu) => 
+                    <Dropdown.Item eventKey={key}>Top Variant {key}</Dropdown.Item>
+                  )}
+                </Dropdown.Menu>
+              </Dropdown>
               {plotdata ? <Creategraph plotData={plotdata} /> : <Spinner animation="border" role="status"></Spinner>}
         </Col>
+        <Col lg="6" md="6" sm="6">
+        {elements && <ProcessExplorerWidget res={elements}/>}
+        </Col>
+        
         {/* <Col Col lg="6" md="6" sm="12">
         {variantlist && <Accordion className="col-12">
               {variantlist.map((variant,e)=>
@@ -161,6 +191,9 @@ function TableList() {
           }
         </Col> */}
         </Row>
+      
+          
+        
       </Container>
     </>
   );
